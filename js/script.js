@@ -10,16 +10,30 @@ if (navigator.serviceWorker) {
 
 ;("use strict")
 
-function calculate() {
-  const length = parseInt(document.getElementById("pay").value)
-  const width = parseInt(document.getElementById("pay2").value)
+const weather2 = async (URLAddress) => {
+  try {
+    const request = await fetch(URLAddress);
+    const jsonData = await request.json();
+    var temp1 = jsonData.main.temp;
+    var temp2 = 0;
+    const feeling = jsonData.weather[0];
+    const image = feeling.icon;
+    temp2 = temp1 - 273.15;
+    
+    console.log(jsonData.weather);
+    document.getElementById("Image").innerHTML =
+      "<img src='http://openweathermap.org/img/wn/" +
+      image +
+      "@2x.png' alt='Icon' width='10%'><br><h5>";
+    (">");
 
-  const area = length * width * 0.18
-  const perimeter = length * width * (1.0 - 0.18)
-  const TAX_RATE = 0.18
 
-  document.getElementById("area").innerHTML =
-    "The governemnt will take: " + area + "$"
-  document.getElementById("perimeter").innerHTML =
-    "your pay will be: " + perimeter + "$"
-}
+    document.getElementById("TheWeather").innerHTML =
+      "The Weather Right now is " + temp2.toFixed(2) + " °C";
+  } catch (err) {
+    console.log(err);
+  }
+};
+weather2(
+  "https://api.openweathermap.org/data/2.5/weather?lat=45.4211435&lon=-75.6900574&appid=fe1d80e1e103cff8c6afd190cad23fa5"
+);
